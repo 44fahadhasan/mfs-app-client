@@ -1,10 +1,33 @@
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import NavBar from "../pages/shared/NavBar";
 
 const MainLayout = () => {
+  const { pathname } = useLocation();
+  const isShow = pathname === "/" || pathname === "/register";
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      document.title = "Plax - Home";
+      return;
+    }
+    document.title = `Plax - ${location.pathname
+      .replaceAll("/", " - ")
+      .replaceAll("-", " ")}`;
+  }, [location]);
+
   return (
-    <main>
-      <Outlet />
-    </main>
+    <div>
+      {/* navbar */}
+      {isShow || <NavBar />}
+
+      {/* main layout */}
+      <main>
+        <Outlet />
+      </main>
+    </div>
   );
 };
 

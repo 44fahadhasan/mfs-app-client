@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null);
@@ -24,6 +25,7 @@ const AuthProvider = ({ children }) => {
       const res = await axiosSecure.get(`/user/${identifier}`);
       return res?.data;
     },
+    refetchInterval: 100,
   });
 
   useEffect(() => {
@@ -33,8 +35,45 @@ const AuthProvider = ({ children }) => {
     }
   }, [data]);
 
-  const userData = { user, loading };
+  const handleLogout = () => {
+    axiosSecure
+      .patch(`/logout/${user?.email}`)
+      .then(({ data }) => {
+        if (data?.acknowledged) {
+          //
+          localStorage.removeItem("token");
+          localStorage.removeItem("cruntUserIdentifier");
+          //
+          toast.success("Logout successfully", {
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
+          //
+        } else {
+          toast.error("Something wrong", {
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
+        }
+      })
+      .catch(({ message }) => {
+        toast.error(message, {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      });
+  };
 
+  const userData = { user, loading, handleLogout };
   console.log("userData auth provider", userData);
 
   return (

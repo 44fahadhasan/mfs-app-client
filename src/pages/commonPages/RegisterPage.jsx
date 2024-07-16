@@ -34,6 +34,7 @@ const RegisterPage = () => {
       .then(({ data }) => {
         console.log(data);
         if (data?.acknowledged && data?.token) {
+          navigate("/home");
           //
           localStorage.setItem("token", data?.token);
           localStorage.setItem("cruntUserIdentifier", email);
@@ -45,9 +46,6 @@ const RegisterPage = () => {
               color: "#fff",
             },
           });
-          //
-          navigate("/home");
-          return;
           //
         } else if (data?.message) {
           toast.success(`${data?.message}`, {
@@ -88,13 +86,8 @@ const RegisterPage = () => {
             <div className="text-center mb-10">
               {/* section content */}
               <div className="">
-                <div className="flex flex-col items-center mb-8">
-                  <Link to="/home">
-                    <Logo />
-                  </Link>
-                </div>
                 <h1 className="mb-2 text-[26px] md:text-[35px] font-bold leading-[42px]">
-                  Open up your plax <br /> Account now
+                  Open up your {<Logo />} <br /> Account now
                 </h1>
                 <div className="mb-5">
                   <Link to="/">
