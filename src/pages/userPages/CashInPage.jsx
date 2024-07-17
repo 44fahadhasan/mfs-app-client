@@ -108,7 +108,7 @@ const CashInPage = () => {
 
               <div className="space-y-1  text-base">
                 <label className="text-sm px-1 text-base-content font-medium">
-                  Request Amount
+                  Cash In Amount
                 </label>
                 <input
                   {...register("requestAmount", { required: true })}
@@ -118,7 +118,7 @@ const CashInPage = () => {
                 />
                 {errors.requestAmount && (
                   <span className="text-base-content text-xs">
-                    Request amount can&apos;t be empty
+                    Cash In amount can&apos;t be empty
                   </span>
                 )}
               </div>
@@ -191,7 +191,7 @@ const CashInPage = () => {
               <div className="flex flex-col gap-3 pt-3">
                 <div className="w-full px-3 mb-3">
                   <button className="btn btn-primary btn-block">
-                    Request Now
+                    Cash In Request
                   </button>
                 </div>
               </div>
