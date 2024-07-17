@@ -75,7 +75,7 @@ const SendMonyPage = () => {
         showCancelButton: true,
         confirmButtonColor: "#212121",
         cancelButtonColor: "#FF1949",
-        confirmButtonText: "Yes, Send mony!",
+        confirmButtonText: "Yes, Send Now!",
       }).then((result) => {
         if (result.isConfirmed) {
           sendMonyRequest(sendMonyData);
@@ -213,7 +213,9 @@ const SendMonyPage = () => {
 
               <div className="flex flex-col gap-3 pt-3">
                 <div className="w-full px-3 mb-3">
-                  <button className="btn btn-primary btn-block">Login</button>
+                  <button className="btn btn-primary btn-block">
+                    Send Now
+                  </button>
                 </div>
               </div>
             </form>
