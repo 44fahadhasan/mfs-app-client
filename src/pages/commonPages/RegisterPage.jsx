@@ -98,9 +98,7 @@ const RegisterPage = () => {
                   <Link to="/login">
                     <p className="text-center text-sm font-light">
                       Already registered?{" "}
-                      <span className="underline hover:text-[#FF1949]">
-                        Login
-                      </span>
+                      <span className="underline text-[#FF1949]">Login</span>
                     </p>
                   </Link>
                 </div>

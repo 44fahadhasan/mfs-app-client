@@ -91,9 +91,7 @@ const LoginPage = () => {
                   <Link to="/register">
                     <p className="text-center text-sm font-light">
                       New to Plax?{" "}
-                      <span className="underline hover:text-[#FF1949]">
-                        Register
-                      </span>
+                      <span className="underline text-[#FF1949]">Register</span>
                     </p>
                   </Link>
                 </div>
