@@ -7,16 +7,16 @@ const TransactionHistory = () => {
   const [transacData, setTransacData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { user } = useAuth();
+  const { identifier } = useAuth();
 
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axiosSecure.get(`/transactions-history/${user?.email}`).then(({ data }) => {
+    axiosSecure.get(`/transactions-history/${identifier}`).then(({ data }) => {
       setTransacData(data);
       setLoading(false);
     });
-  }, [axiosSecure, user?.email]);
+  }, [axiosSecure, identifier]);
 
   if (loading) return <LoadingSpiinner />;
 
@@ -28,7 +28,7 @@ const TransactionHistory = () => {
           <thead>
             <tr>
               <th>Order</th>
-              <th>Send Amount</th>
+              <th>Transaction Amount</th>
               <th>Consumer Info</th>
               <th>Fee</th>
               <th>Your Balance</th>
@@ -44,10 +44,22 @@ const TransactionHistory = () => {
                 className={`${data?.idx / 1 === 0 && "bg-base-200"}`}
               >
                 <th>{idx + 1}</th>
-                <td>{data?.sendMoneyAmount}.00Tk</td>
-                <td>{data?.receiveIdentifier}</td>
-                <td>{(data?.fee && data?.fee) || 0}.00Tk</td>
-                <td>{data?.newBalance}.00Tk</td>
+                {data?.sendMoneyAmount && (
+                  <td>{Number(data?.sendMoneyAmount).toFixed(2)} Tk</td>
+                )}
+                {data?.cashOutAmount && (
+                  <td>{Number(data?.cashOutAmount).toFixed(2)} Tk</td>
+                )}
+
+                {data?.receiveIdentifier && <td>{data?.receiveIdentifier}</td>}
+                {data?.agentIdentifier && <td>{data?.agentIdentifier}</td>}
+
+                {data?.fee && <td>{data?.fee} Tk</td>}
+
+                {data?.vatAmount && <td>{data?.vatAmount.toFixed(2)} Tk</td>}
+
+                <td>{data?.newBalance.toFixed(2)} Tk</td>
+
                 <td>{new Date(data?.date).toLocaleString()}</td>
               </tr>
             ))}

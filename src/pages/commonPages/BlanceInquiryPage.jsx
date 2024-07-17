@@ -10,7 +10,7 @@ const BlanceInquiryPage = () => {
           <h2 className="card-title">Current Balance</h2>
           <div className="card-actions justify-center mt-4">
             <span className="btn font-bold text-xl btn-primary">
-              {user?.balance}.00Tk
+              {user?.balance.toFixed(2)} Tk
             </span>
           </div>
         </div>

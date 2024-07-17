@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     axiosSecure
-      .patch(`/logout/${user?.email}`)
+      .patch(`/logout/${identifier}`)
       .then(({ data }) => {
         if (data?.acknowledged) {
           //
@@ -73,8 +73,7 @@ const AuthProvider = ({ children }) => {
       });
   };
 
-  const userData = { user, loading, handleLogout };
-  console.log("userData auth provider", userData);
+  const userData = { user, loading, identifier, handleLogout };
 
   return (
     <AuthContext.Provider value={userData}>{children}</AuthContext.Provider>

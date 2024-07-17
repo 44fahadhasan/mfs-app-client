@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo/Logo";
+import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const RegisterPage = () => {
@@ -18,11 +19,9 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
+  const { handleLogout } = useAuth();
 
-  const handleWindowAutoreaload = () => {
-    window.location.reload();
-  };
+  const navigate = useNavigate();
 
   // register from handle
   const onSubmit = (data) => {
@@ -36,13 +35,9 @@ const RegisterPage = () => {
     axiosPublic
       .post("/register", userInfo)
       .then(({ data }) => {
-        console.log(data);
-        if (data?.acknowledged && data?.token) {
-          navigate("/");
-          handleWindowAutoreaload();
-          //
-          localStorage.setItem("token", data?.token);
-          localStorage.setItem("cruntUserIdentifier", email);
+        if (data?.acknowledged) {
+          handleLogout();
+          navigate("/login");
           //
           toast.success("Account created successfully", {
             style: {
