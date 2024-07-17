@@ -20,21 +20,26 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
+  const handleWindowAutoreaload = () => {
+    window.location.reload();
+  };
+
   // register from handle
   const onSubmit = (data) => {
     const fullName = data.fullName;
     const email = data.email;
     const mobileNumber = data.mobileNumber;
+    const accountType = data.accountType;
     const pin = data.pin;
-    const userInfo = { fullName, email, mobileNumber, pin };
-
+    const userInfo = { fullName, email, mobileNumber, accountType, pin };
     // create a new user request on database
     axiosPublic
       .post("/register", userInfo)
       .then(({ data }) => {
         console.log(data);
         if (data?.acknowledged && data?.token) {
-          navigate("/home");
+          navigate("/");
+          handleWindowAutoreaload();
           //
           localStorage.setItem("token", data?.token);
           localStorage.setItem("cruntUserIdentifier", email);
@@ -90,7 +95,7 @@ const RegisterPage = () => {
                   Open up your {<Logo />} <br /> Account now
                 </h1>
                 <div className="mb-5">
-                  <Link to="/">
+                  <Link to="/login">
                     <p className="text-center text-sm font-light">
                       Already registered?{" "}
                       <span className="underline hover:text-[#FF1949]">
@@ -155,6 +160,25 @@ const RegisterPage = () => {
                     </span>
                   )}
                 </div>
+
+                <div className="md:flex gap-5 space-y-4 md:space-y-0">
+                  <div className="space-y-1 text-base w-full">
+                    <label className="text-sm px-1 text-base-content font-medium">
+                      Account Type
+                    </label>
+                    <select
+                      name="accountType"
+                      {...register("accountType", {
+                        required: true,
+                      })}
+                      className="w-full pl-10 pr-3 py-2 rounded-lg border border-[#E9E9E9] text-secondary-content outline-none focus:border-primary bg-base-100"
+                    >
+                      <option value="normal">Normal</option>
+                      <option value="agent">Agent</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div className="space-y-1  text-base">
                   <label className="text-sm px-1 text-base-content font-medium">
                     5-digit PIN

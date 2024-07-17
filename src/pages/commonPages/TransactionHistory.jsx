@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpiinner from "../../components/LoadingSpiinner/LoadingSpiinner";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const TransactionHistory = () => {
   const [transacData, setTransacData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();
 
@@ -12,8 +14,11 @@ const TransactionHistory = () => {
   useEffect(() => {
     axiosSecure.get(`/transactions-history/${user?.email}`).then(({ data }) => {
       setTransacData(data);
+      setLoading(false);
     });
   }, [axiosSecure, user?.email]);
+
+  if (loading) return <LoadingSpiinner />;
 
   return (
     <section className="container w-[87%] mx-auto poppins mt-16">
@@ -30,6 +35,7 @@ const TransactionHistory = () => {
               <th>Date</th>
             </tr>
           </thead>
+
           <tbody>
             {/* row */}
             {transacData?.map((data, idx) => (

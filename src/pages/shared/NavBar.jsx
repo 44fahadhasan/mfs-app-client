@@ -1,64 +1,119 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo/Logo";
 import useAuth from "../../hooks/useAuth";
 
 const NavBar = () => {
+  const { user, handleLogout } = useAuth();
+
+  const navigate = useNavigate();
+
   const menuItems = (
     <>
-      <li>
-        <NavLink
-          to="send-mony"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "text-base-content"
-          }
-        >
-          Send Mony
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="cash-out"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "text-base-content"
-          }
-        >
-          Cash Out
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="cash-in"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "text-base-content"
-          }
-        >
-          Cash In
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="balance-inquiry"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "text-base-content"
-          }
-        >
-          Balance Inquiry
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="transactions-history"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "text-base-content"
-          }
-        >
-          Transactions History
-        </NavLink>
-      </li>
+      {/* normal user navigatin bar */}
+      {user?.userRole === "normal" && (
+        <>
+          <li>
+            <NavLink
+              to="send-mony"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              Send Mony
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="cash-out"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              Cash Out
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="cash-in"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              Cash In
+            </NavLink>
+          </li>
+        </>
+      )}
+
+      {/* agent user navigatin bar */}
+
+      {user?.userRole === "agent" && (
+        <li>
+          <NavLink
+            to="transaction-management"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "text-base-content"
+            }
+          >
+            Transaction Management
+          </NavLink>
+        </li>
+      )}
+
+      {/* both user navigatin bar */}
+      {(user?.userRole === "normal" || user?.userRole === "agent") && (
+        <>
+          <li>
+            <NavLink
+              to="transactions-history"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              Transactions History
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="balance-inquiry"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              Balance Inquiry
+            </NavLink>
+          </li>
+        </>
+      )}
+
+      {/* navigation only admin  */}
+      {user?.userRole === "admin" && (
+        <>
+          <li>
+            <NavLink
+              to="user-management"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              User Management
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="system-monitoring"
+              className={({ isActive }) =>
+                isActive ? "text-primary" : "text-base-content"
+              }
+            >
+              System Monitoring
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
-  const { user, handleLogout } = useAuth();
   return (
     <div className="poppins navbar bg-base-100 w-[95%] lg:w-auto mx-auto container">
       <div className="navbar-start font-medium">
@@ -91,9 +146,11 @@ const NavBar = () => {
           </ul>
         </div>
         <div className="flex items-center ">
-          <Link to="/home">
-            <Logo />
-          </Link>
+          {user?.userIsLogin && (
+            <Link to="/">
+              <Logo />
+            </Link>
+          )}
         </div>
       </div>
 
@@ -106,7 +163,10 @@ const NavBar = () => {
       {user?.userIsLogin && (
         <div className="navbar-end">
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              handleLogout();
+              navigate("/login");
+            }}
             className="btn btn-primary rounded-full"
           >
             Logout

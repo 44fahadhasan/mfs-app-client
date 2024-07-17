@@ -4,7 +4,7 @@ import NavBar from "../pages/shared/NavBar";
 
 const MainLayout = () => {
   const { pathname } = useLocation();
-  const isShow = pathname === "/" || pathname === "/register";
+  const isShow = pathname === "/login" || pathname === "/register";
 
   const location = useLocation();
 

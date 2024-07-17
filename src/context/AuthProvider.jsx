@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
       const res = await axiosSecure.get(`/user/${identifier}`);
       return res?.data;
     },
-    refetchInterval: 100,
+    refetchInterval: 1,
   });
 
   useEffect(() => {

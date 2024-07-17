@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import SectionContent from "../../../components/SectionContent/SectionContent";
-import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import SectionContent from "../../components/SectionContent/SectionContent";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SendMonyPage = () => {
   const [toggle, setToggle] = useState(true);
